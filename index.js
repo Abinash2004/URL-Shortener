@@ -1,7 +1,8 @@
 const express = require("express");
 const urlRoute = require("./routes/url");
 const userRoute = require("./routes/user");
-
+const cookieParser = require("cookie-parser");
+const {restrictToLoggedInUserOnly} = require("./middleware/auth");
 const { connectToMongoDB } = require("./connection");
 
 const app = express();
@@ -12,7 +13,8 @@ connectToMongoDB("mongodb+srv://abinashparida2021_db_user:isC9yIO8NfUXPG5w@clust
 .catch((err) => console.error("MongoDB connection failed:", err));
 
 app.use(express.json());
-app.use("/url", urlRoute);
+app.use(cookieParser());
+app.use("/url",restrictToLoggedInUserOnly, urlRoute);
 app.use("/user", userRoute);
 
 app.listen(PORT, () => console.log(`Server is started on port: ${PORT}`));
