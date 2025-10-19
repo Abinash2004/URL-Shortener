@@ -1,9 +1,12 @@
 # URL Shortener API
 
-A simple Node.js + Express + MongoDB API to generate short URLs and track visit history.
+A secure Node.js + Express + MongoDB API to generate and manage short URLs with authentication and visit tracking.
 
 ## Features
-- Generate short URLs from long URLs
-- Redirect to original URLs
-- Log visit history with timestamps
-- Built with Node.js, Express, MongoDB, Mongoose, and nanoid
+- Stateless JWT-based authentication
+- Cookies for session management
+- Generate short URLs from long URLs using nanoid
+- Redirect to original URLs from the short ones
+- Log visit history of shortened URLs with timestamps
+- Authorization: only logged-in users can generate short URLs
+- Built with Node.js, Express, MongoDB, Mongoose, JWT, and nanoid
