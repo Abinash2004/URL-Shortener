@@ -1,7 +1,6 @@
 const User = require("../models/user");
 const bcrypt = require("bcrypt");
 const { setUser } = require("../services/auth");
-const { v4: uuidv4 } = require('uuid');
 
 async function handleSignUp(req, res) {
     try {
@@ -20,10 +19,8 @@ async function handleSignUp(req, res) {
             password: hashed
         })
 
-        const sessionId = uuidv4();
-
-        setUser(sessionId, { user_id: user._id, email: user.email });
-        res.cookie("uid", sessionId);
+        const token = setUser({ user_id: user._id, email: user.email });
+        res.cookie("uid", token);
         res.status(200).json({ message: "Successfully Signed Up", user: {user_id:user._id, email: user.email}});
 
     } catch (err) {
@@ -41,9 +38,8 @@ async function handleSignIn(req, res) {
         const valid = await bcrypt.compare(password, user.password);
         if (!valid) return res.status(401).json({ error: "Invalid credentials" });
         
-        const sessionId = uuidv4();
-        setUser(sessionId, { user_id: user._id, email: user.email });
-        res.cookie("uid", sessionId);
+        const token = setUser({ user_id: user._id, email: user.email });
+        res.cookie("uid", token);
         res.status(200).json({ message: "Successfully Signed In", user: {user_id:user._id, email: user.email}});
 
     } catch (err) {

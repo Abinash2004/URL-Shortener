@@ -21,7 +21,6 @@ async function handleGenerateShortURL(req, res) {
 async function redirectToOriginalURL(req, res) {
     
     const shortId = req.params.id;
-    console.log(shortId);
     
     const entry = await URL.findOneAndUpdate(
         { shortId },
